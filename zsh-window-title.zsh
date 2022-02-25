@@ -98,6 +98,10 @@ __zsh-window-title:precmd() {
 
 	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~")
 
+	if [[ -n $SSH_CONNECTION ]]; then
+		title+=" - $HOST"
+	fi
+
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
 
@@ -106,6 +110,10 @@ __zsh-window-title:preexec() {
 	__zsh-window-title:debugger
 
 	local title=$(print -P "%$ZSH_WINDOW_TITLE_DIRECTORY_DEPTH~ - ${1[(w)1]}")
+
+	if [[ -n $SSH_CONNECTION ]]; then
+		title+=" - $HOST"
+	fi
 
 	'builtin' 'echo' -ne "\033]0;$title\007"
 }
